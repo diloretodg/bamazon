@@ -60,7 +60,7 @@ function shop(){
                     console.log("\n Insufficient quantity! \n ------------- \n");
                     connection.end();
                 } else {
-                    var cost =  answer.quantity * (res[0].price/100);
+                    cost =  (answer.quantity * (res[0].price/100)).toFixed(2);
                     var newQuantity = Number(res[0].quantity) - answer.quantity
                     buyProduct(res[0].id, newQuantity);
                 }
@@ -96,7 +96,7 @@ function displayProducts(){
 }
 
 function buyProduct(id, q) {
-    console.log("Completeing purchase...\n");
+    console.log("Completeing purchase. Purchase total is $" + cost);
     var query = connection.query(
       "UPDATE products SET ? WHERE ?",
       [
