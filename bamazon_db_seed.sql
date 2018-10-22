@@ -13,6 +13,6 @@ CREATE TABLE products (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE departments (
+-- CREATE TABLE departments (
     
-)
+-- )
