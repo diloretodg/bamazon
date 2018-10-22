@@ -204,3 +204,24 @@ function loadFromCsv(){
         }
     )});
 };
+
+function productSearch(){
+    inquirer.prompt([
+        {
+            name: 'product_id',
+            message: 'What is the ID of the product you wish to purchase?',
+        },
+        {
+            name: 'quantity',
+            message: 'How many would you like?',
+        },
+    ])
+    
+    var query = connection.query('Select * FROM  products WHERE id=?', [id], function(err, res){
+        if(err){
+            console.log(err)
+        } else {
+            console.log(res[0].name)
+        }
+    })
+}
