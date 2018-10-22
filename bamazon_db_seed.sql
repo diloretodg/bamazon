@@ -12,3 +12,7 @@ CREATE TABLE products (
     quantity INT,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE departments (
+    
+)

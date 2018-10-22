@@ -1,3 +1,4 @@
+var csvParser = require('csv-parse');
 var inquirer = require('inquirer');
 var fs = require('fs');
 var mysql = require("mysql");
@@ -19,7 +20,9 @@ connection.connect(function(err) {
     console.log("connected as id " + connection.threadId + "\n");
     // buildProduct();
     // displayProducts();
-    // deleteProduct(2);
+    // deleteProduct();
+    // productCsv();
+    // loadFromCsv();
 });
 
 // product constructor
@@ -79,8 +82,8 @@ function buildProduct(){
 
 // loops through array and calls create function for product table
 function loadProducts(arr) {
-    for(var i = 0; i < productsToLoad.length; i ++){
-        createProduct(productsToLoad[i]);
+    for(var i = 0; i < arr.length; i ++){
+        createProduct(arr[i]);
     }
 }
 
@@ -116,7 +119,7 @@ function displayProducts(){
                 'ID: ' + res[i].id + '\n' +
                 'Name: ' + res[i].name + '\n' +
                 'Department: ' + res[i].department + '\n' +
-                'Price: ' + res[i].price + '\n' +
+                'Price: ' + (res[i].price/100).toFixed(2) + '\n' +
                 'Quantity: ' + res[i].quantity + '\n' +
                 '---------------'
             );
@@ -141,4 +144,63 @@ function deleteProduct(val) {
     );
 };
 
+function productCsv(){
+    filePath = 'products.csv';
+    console.log("writing products.csv with entire product list");
+    fs.readFile(filePath, 'utf8', function(err, data) {
+        if(err) console.log(err);
+        if (data) fs.truncate(filePath, 0, function(){
+            console.log('done');
+            });
+        var infostream = [];
+        var query = connection.query('SELECT * FROM products', function(err, data){
+            if(err) console.log(err);
+            for(var i = 0; i < data.length; i++){
+                infostream.push(
+                    Number(data[i].id) + ',' + 
+                    data[i].name + ',' + 
+                    data[i].department + ',' + 
+                    data[i].price + ',' + 
+                    data[i].quantity
+                    );
+            }
+            console.log(infostream);
+            for(var i = 0; i < infostream.length; i ++){
+                fs.appendFileSync(filePath,infostream[i] + '\n', function(err){
+                    if(err) console.log(err);
+                });
+            }
+        })
+    })
+};
 
+function loadFromCsv(){
+    filePath = 'products.csv';
+    fs.readFile(filePath, {
+        encoding: 'utf-8'
+    }, function(err, csvData) {
+        if (err) {
+        console.log(err);
+        }
+    csvParser(csvData, {
+        delimiter: ','
+        }, function(err, data) {
+            if (err) {
+                console.log(err);
+            } else {    
+                for(var i = 0; i < data.length; i++){
+                    var p = data[i];
+                    Number(p[0]);
+                    new Product(p[1],p[2],p[3],p[4]);
+                }
+            productsToLoad.sort(function(a, b) { 
+                return a[0] > b[0] ? 1 : -1;
+            });
+            connection.query('TRUNCATE TABLE products', function(err){
+                if(err) console.log(err);
+            });
+            loadProducts(productsToLoad);
+            }
+        }
+    )});
+};
