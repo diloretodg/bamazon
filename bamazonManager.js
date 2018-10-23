@@ -22,7 +22,7 @@ connection.connect(function(err) {
     // displayProducts();
     // deleteProduct();
     // productCsv();
-    loadFromCsv();
+    // loadFromCsv();
 });
 
 // product constructor

@@ -42,12 +42,11 @@ function shop(){
         new CartItem(answer.product_id, answer.quantity);
         var query = 'SELECT * FROM products WHERE ?';
         connection.query(query, {id: cart[0].id}, function(err, res){
-            console.log(res);
             if(err) console.log(err);
-            // if (res.length === 0){
-            //     console.log("Please select a valid product");
-            //     shop();
-            // } 
+            if (res.length === 0){
+                console.log("Please select a valid product");
+                cart = [];
+                shop();} 
             else {
                 console.log(
                     'ID: ' + res[0].id + '\n' +
@@ -98,6 +97,7 @@ function displayProducts(){
     })
 }
 
+// updates table with reduced inventory from purchases
 function buyProduct(id, q) {
     console.log("Completeing purchase. Purchase total is $" + cost);
     var query = connection.query(
