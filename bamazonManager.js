@@ -14,15 +14,33 @@ var connection = mysql.createConnection({
     // Database
     database: "bamazon"
 });
+var managerOptions = [
+    {buildProduct: buildProduct()},
+    {displayProducts:displayProducts()},
+    {deleteProduct: deleteProduct()},
+    {productToCsv: productCsv()},
+    {loadFromCsv: loadFromCsv()},
+]
+
+var managerPrompts = [
+    {   
+        type: 'list',
+        name: 'manager_function',
+        message: 'What would you like to do?',
+        choices: managerOptions,
+    }
+]
+
+function manager(){
+    inquirer.prompt(managerPrompts).then(function(answer){
+        answer.manager_function;
+    })
+}
 
 connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    // buildProduct();
-    // displayProducts();
-    // deleteProduct();
-    // productCsv();
-    // loadFromCsv();
+    manager();
 });
 
 // product constructor
