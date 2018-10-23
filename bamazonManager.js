@@ -15,11 +15,12 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 var managerOptions = [
-    {buildProduct: buildProduct()},
-    {displayProducts:displayProducts()},
-    {deleteProduct: deleteProduct()},
-    {productToCsv: productCsv()},
-    {loadFromCsv: loadFromCsv()},
+
+    'build Product',
+    'display Products',
+    'delete Product',
+    'Product To Csv',
+    'load From Csv',
 ]
 
 var managerPrompts = [
@@ -33,7 +34,25 @@ var managerPrompts = [
 
 function manager(){
     inquirer.prompt(managerPrompts).then(function(answer){
-        answer.manager_function;
+        
+            switch (answer.manager_function) {
+                case 'build Product':
+                  buildProduct()
+                  break;
+                case 'display Products':
+                displayProducts() 
+                  break;
+                case 'delete Product':
+                  deleteProduct()
+                  break;
+                case 'Product To Csv':
+                  // Divide
+                  productCsv()
+                  break;
+                case 'load From Csv':
+                  loadFromCsv()
+                  break;
+        }
     })
 }
 
