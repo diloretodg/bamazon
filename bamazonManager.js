@@ -137,7 +137,7 @@ function displayProducts(){
                 'ID: ' + res[i].id + '\n' +
                 'Name: ' + res[i].name + '\n' +
                 'Department: ' + res[i].department + '\n' +
-                'Price: ' + (res[i].price/100).toFixed(2) + '\n' +
+                'Price: $' + (res[i].price/100).toFixed(2) + '\n' +
                 'Quantity: ' + res[i].quantity + '\n' +
                 '---------------'
             );
