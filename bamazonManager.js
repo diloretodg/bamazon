@@ -14,6 +14,7 @@ var connection = mysql.createConnection({
     // Database
     database: "bamazon"
 });
+
 var managerOptions = [
 
     'build Product',
@@ -37,20 +38,20 @@ function manager(){
         
             switch (answer.manager_function) {
                 case 'build Product':
-                  buildProduct()
+                    buildProduct()
                   break;
                 case 'display Products':
-                displayProducts() 
+                    displayProducts() 
                   break;
                 case 'delete Product':
-                  deleteProduct()
+                    deleteProduct()
                   break;
                 case 'Product To Csv':
                   // Divide
-                  productCsv()
+                    productCsv()
                   break;
                 case 'load From Csv':
-                  loadFromCsv()
+                    loadFromCsv()
                   break;
         }
     })
